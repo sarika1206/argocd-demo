@@ -1,7 +1,7 @@
 const http = require('http');
 
 const hostname = '127.0.0.1';
-const port = 32316;
+const port = 80;
 
 console.log(process.env.ENVIRONMENT || 'e2e');
 
