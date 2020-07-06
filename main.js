@@ -12,7 +12,7 @@ if (process.env.ENVIRONMENT === 'prod') {
 const server = http.createServer((_, res) => {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello, jenkins World!4.0\n');
+  res.end('Hello, jenkins World!6.0\n');
 });
 
 
