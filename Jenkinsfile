@@ -42,7 +42,7 @@ pipeline {
                         # Deploy image to ECR
                         docker tag $CONTAINER:latest $AWS_ACCOUNT.dkr.ecr.$REGION.amazonaws.com/$CONTAINER:latest
                         docker push $AWS_ACCOUNT.dkr.ecr.$REGION.amazonaws.com/$CONTAINER:latest
-                        IMAGE_DIGEST=$(docker image inspect $AWS_ACCOUNT.dkr.ecr.$REGION.amazonaws.com/$CONTAINER:latest -f '{{join .RepoDigests ","}}')
+                      #  IMAGE_DIGEST=$(docker image inspect $AWS_ACCOUNT.dkr.ecr.$REGION.amazonaws.com/$CONTAINER:latest -f '{{join .RepoDigests ","}}')
                         # Customize image
                       #  ARGOCD_SERVER=$ARGOCD_SERVER 
                       #  argocd --grpc-web app set $APP_NAME --kustomize-image $IMAGE_DIGEST
@@ -61,6 +61,10 @@ pipeline {
                         ARGOCD_SERVER="a55eda76d41234773a1192cfc5bf4acd-160446432.us-west-2.elb.amazonaws.com"
                         APP_NAME="debian-test"
                         ARGOCD_SERVER=$ARGOCD_SERVER 
+			 AWS_ACCOUNT="738507247612"
+			 REGION="us-west-2"
+			 CONTAINER="k8s-debian-test"
+			IMAGE_DIGEST=$(docker image inspect $AWS_ACCOUNT.dkr.ecr.$REGION.amazonaws.com/$CONTAINER:latest -f '{{join .RepoDigests ","}}')
                         argocd --grpc-web app set $APP_NAME --kustomize-image $IMAGE_DIGEST
 
                         # Deploy to ArgoCD
@@ -78,6 +82,10 @@ pipeline {
                         ARGOCD_SERVER="a55eda76d41234773a1192cfc5bf4acd-160446432.us-west-2.elb.amazonaws.com"
                         APP_NAME="prod-test"
                         ARGOCD_SERVER=$ARGOCD_SERVER 
+			AWS_ACCOUNT="738507247612"
+			 REGION="us-west-2"
+			 CONTAINER="k8s-debian-test"
+			IMAGE_DIGEST=$(docker image inspect $AWS_ACCOUNT.dkr.ecr.$REGION.amazonaws.com/$CONTAINER:latest -f '{{join .RepoDigests ","}}')
                         argocd --grpc-web app set $APP_NAME --kustomize-image $IMAGE_DIGEST
 
                         # Deploy to ArgoCD
