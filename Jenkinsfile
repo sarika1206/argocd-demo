@@ -72,6 +72,10 @@ pipeline {
                         ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $APP_NAME --force
                         ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app wait $APP_NAME --timeout 600
                         '''
+		        dir("argocd-dome-deploy") {
+            		sh "cd ./e2e && kustomize edit set image sarika1206/argocd-demo:${env.GIT_COMMIT}"
+            		sh "git commit -am 'Publish new version' && git push || echo 'no changes'"
+          		}
                }
             }
         }
@@ -94,6 +98,10 @@ pipeline {
                         ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $APP_NAME --force
                         ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app wait $APP_NAME --timeout 600
                         '''
+	                dir("argocd-demo-deploy") {
+            		sh "cd ./prod && kustomize edit set image sarika1206/argocd-demo:${env.GIT_COMMIT}"
+            		sh "git commit -am 'Publish new version' && git push || echo 'no changes'"
+          	}
                }
             }
         }
