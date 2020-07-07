@@ -72,6 +72,7 @@ pipeline {
                         ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $APP_NAME --force
                         ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app wait $APP_NAME --timeout 600
                         '''
+		        pwd
 		        sh "git clone https://github.com/sarika1206/argocd-demo.git"
 		        dir("argocd-dome-deploy") {
             		sh "cd ./e2e && kustomize edit set image sarika1206/argocd-demo:${env.GIT_COMMIT}"
