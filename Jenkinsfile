@@ -77,7 +77,6 @@ pipeline {
         }
 	stage ('Deploy into prod env'){
 		    steps{
-			   when { tag "v1.*" }
 			  input message:'Approve deployment?'
 			   withCredentials([string(credentialsId: "argocd-role", variable: 'ARGOCD_AUTH_TOKEN')]) {
 			       sh '''
