@@ -77,6 +77,7 @@ pipeline {
         }
 	stage ('Deploy into prod env'){
 		    steps{
+			  input message:'Approve deployment?'
 			   withCredentials([string(credentialsId: "argocd-role", variable: 'ARGOCD_AUTH_TOKEN')]) {
 			       sh '''
                         ARGOCD_SERVER="a55eda76d41234773a1192cfc5bf4acd-160446432.us-west-2.elb.amazonaws.com"
