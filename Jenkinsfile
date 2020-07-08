@@ -76,7 +76,7 @@ pipeline {
                         '''
 	               sh 'git tag -m "" ${BUILD_NUMBER}'
 			withCredentials([
-  				usernamePassword(credentialsId: 'github', usernameVariable: 'sarikagupta1206@gmail.com', passwordVariable: 'Sanu@8865')
+  				usernamePassword(credentialsId: 'github', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')
 				]) {
   			sh 'git push origin ${BUILD_NUMBER}'
 			}
