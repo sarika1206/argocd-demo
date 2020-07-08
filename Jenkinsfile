@@ -74,12 +74,6 @@ pipeline {
 			#git tag ${BUILD_NUMBER}
 			#git push origin ${BUILD_NUMBER}
                         '''
-	           #    sh 'git tag -m "" ${BUILD_NUMBER}'
-		#	withCredentials([
-  		#		usernamePassword(credentialsId: 'github', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')
-		#		]) {
-  		#	sh 'git push origin ${BUILD_NUMBER}'
-		#	}
                }
             }
         }
