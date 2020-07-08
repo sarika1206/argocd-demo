@@ -72,6 +72,7 @@ pipeline {
                         ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $APP_NAME --force
                         ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app wait $APP_NAME --timeout 600
 			git tag ${BUILD_NUMBER}
+			git push origin ${BUILD_NUMBER}
                         '''
                }
             }
