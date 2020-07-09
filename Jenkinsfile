@@ -106,7 +106,7 @@ pipeline {
                         ARGOCD_SERVER=$ARGOCD_SERVER 
 			AWS_ACCOUNT="738507247612"
 			 REGION="us-west-2"
-			 CONTAINER="k8s-debian-test"
+			 CONTAINER="debian-test-canary"
 			IMAGE_DIGEST=$(docker image inspect $AWS_ACCOUNT.dkr.ecr.$REGION.amazonaws.com/$CONTAINER:latest -f '{{join .RepoDigests ","}}')
                         argocd --grpc-web app set $APP_NAME --kustomize-image $IMAGE_DIGEST
 
