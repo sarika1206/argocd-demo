@@ -61,7 +61,7 @@ pipeline {
 			       sh '''
                         ARGOCD_SERVER="a55eda76d41234773a1192cfc5bf4acd-160446432.us-west-2.elb.amazonaws.com"
                         #APP_NAME="prod-test"
-			JOB_NAME = echo $JOB_BASE_NAME
+			JOB_NAME = $JOB_BASE_NAME
                         ARGOCD_SERVER=$ARGOCD_SERVER 
 			AWS_ACCOUNT="738507247612"
 			 REGION="us-west-2"
