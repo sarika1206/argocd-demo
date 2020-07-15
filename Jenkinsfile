@@ -53,11 +53,10 @@ pipeline {
 			AWS_ACCOUNT="738507247612"
 			REGION="us-west-2"
 			CONTAINER="k8s-debian-test"
-			IMAGE_DIGEST=$(docker image inspect $AWS_ACCOUNT.dkr.ecr.$REGION.amazonaws.com/$CONTAINER:latest -f '{{join .RepoDigests ","}}')
-			
 			'''
 			script{
 				if (env.BRANCH_NAME == 'master') {
+					IMAGE_DIGEST=$(docker image inspect $AWS_ACCOUNT.dkr.ecr.$REGION.amazonaws.com/$CONTAINER:latest -f '{{join .RepoDigests ","}}')
 					echo $JOB_BASE_NAME
 					echo "sarika"
 					argocd app create $JOB_BASE_NAME --repo https://github.com/sarika1206/argocd-dome-deploy.git --revision HEAD --path e2e --dest-namespace preview --dest-server https://kubernetes.default.svc
@@ -71,6 +70,7 @@ pipeline {
 					ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app wait $JOB_BASE_NAME --timeout 600
 					echo "sarika5"
 				} else if (updated PR) {
+					IMAGE_DIGEST=$(docker image inspect $AWS_ACCOUNT.dkr.ecr.$REGION.amazonaws.com/$CONTAINER:latest -f '{{join .RepoDigests ","}}')
 					ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $JOB_BASE_NAME --force
                         		argocd --grpc-web app set $JOB_BASE_NAME --kustomize-image $IMAGE_DIGEST
                         		ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $JOB_BASE_NAME --force
