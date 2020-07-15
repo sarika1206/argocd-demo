@@ -65,7 +65,7 @@ pipeline {
 			 AWS_ACCOUNT="738507247612"
 			 REGION="us-west-2"
 			 CONTAINER="k8s-debian-test"
-			IMAGE_DIGEST=$(docker image inspect $AWS_ACCOUNT.dkr.ecr.$REGION.amazonaws.com/$CONTAINER:latest -f '{{join .RepoDigests ","}}')
+		#	IMAGE_DIGEST=$(docker image inspect $AWS_ACCOUNT.dkr.ecr.$REGION.amazonaws.com/$CONTAINER:latest -f '{{join .RepoDigests ","}}')
                         #argocd --grpc-web app set $APP_NAME --kustomize-image $IMAGE_DIGEST
 			argocd app create app-preview-12345 --repo <pr_repo> --revision <pr_branch> --path <path_in_app> --dest-namespace <preview-namespace> --dest-cluster <preview-cluster>
    			argocd app create app-preview-12345
