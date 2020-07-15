@@ -23,6 +23,7 @@ pipeline {
                     # Build the image
                     $(aws ecr get-login --region us-west-2 --profile default --no-include-email)
                     docker build . -t k8s-debian-test
+		    env
                 '''
             }
         }
