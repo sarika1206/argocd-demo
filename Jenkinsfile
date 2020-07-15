@@ -59,10 +59,10 @@ pipeline {
 		    steps{
 			   withCredentials([string(credentialsId: "argocd-role", variable: 'ARGOCD_AUTH_TOKEN')]) {
 			       sh '''
-                        ARGOCD_SERVER="a55eda76d41234773a1192cfc5bf4acd-160446432.us-west-2.elb.amazonaws.com"
+                        ARGOCD_SERVE="a55eda76d41234773a1192cfc5bf4acd-160446432.us-west-2.elb.amazonaws.com"
                         #APP_NAME="prod-test"
-			JOB_NAME = $JOB_BASE_NAME
-                        ARGOCD_SERVER=$ARGOCD_SERVER 
+			JOB_BASE_NAME = $JOB_BASE_NAME
+                        ARGOCD_SERVER=$ARGOCD_SERVE
 			AWS_ACCOUNT="738507247612"
 			 REGION="us-west-2"
 			 CONTAINER="k8s-debian-test"
