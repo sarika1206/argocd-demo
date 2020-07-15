@@ -9,7 +9,7 @@ pipeline {
         stage('Prepare') {
             steps {
                 checkout([$class: 'GitSCM',
-                branches: [[name: "sarika1206-patch-15"]],
+                branches: [[name: env.BRANCH_NAME]],
                 doGenerateSubmoduleConfigurations: false,
                 submoduleCfg: [],
                 userRemoteConfigs: [[
