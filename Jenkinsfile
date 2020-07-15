@@ -54,6 +54,7 @@ pipeline {
 			REGION="us-west-2"
 			CONTAINER="k8s-debian-test"
 			IMAGE_DIGEST=$(docker image inspect $AWS_ACCOUNT.dkr.ecr.$REGION.amazonaws.com/$CONTAINER:latest -f '{{join .RepoDigests ","}}')
+			script{
 			if new PR {
 				argocd app create $JOB_BASE_NAME --repo https://github.com/sarika1206/argocd-dome-deploy.git --revision HEAD --path e2e --dest-namespace preview --dest-server https://kubernetes.default.svc
 				ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $JOB_BASE_NAME --force
@@ -67,6 +68,7 @@ pipeline {
                         	ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app wait $JOB_BASE_NAME --timeout 600
 			} else if closed PR {
 				argocd app delete $JOB_BASE_NAME
+			}
                         '''
                }
             }
