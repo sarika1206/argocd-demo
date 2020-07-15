@@ -48,14 +48,15 @@ pipeline {
 		    steps{
 			   withCredentials([string(credentialsId: "argocd-role", variable: 'ARGOCD_AUTH_TOKEN')]) {
 			       sh '''
-                        ARGOCD_SERVER="a55eda76d41234773a1192cfc5bf4acd-160446432.us-west-2.elb.amazonaws.com"
-                        ARGOCD_SERVER=$ARGOCD_SERVER
-			AWS_ACCOUNT="738507247612"
-			REGION="us-west-2"
-			CONTAINER="k8s-debian-test"
+                        
 			'''
 			script{
 				if (env.BRANCH_NAME == 'master') {
+					ARGOCD_SERVER="a55eda76d41234773a1192cfc5bf4acd-160446432.us-west-2.elb.amazonaws.com"
+                        		ARGOCD_SERVER=$ARGOCD_SERVER
+					AWS_ACCOUNT="738507247612"
+					REGION="us-west-2"
+					CONTAINER="k8s-debian-test"
 					IMAGE_DIGEST=$(docker image inspect $AWS_ACCOUNT.dkr.ecr.$REGION.amazonaws.com/$CONTAINER:latest -f '{{join .RepoDigests ","}}')
 					echo $JOB_BASE_NAME
 					echo "sarika"
@@ -70,6 +71,11 @@ pipeline {
 					ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app wait $JOB_BASE_NAME --timeout 600
 					echo "sarika5"
 				} else if (updated PR) {
+					ARGOCD_SERVER="a55eda76d41234773a1192cfc5bf4acd-160446432.us-west-2.elb.amazonaws.com"
+                        		ARGOCD_SERVER=$ARGOCD_SERVER
+					AWS_ACCOUNT="738507247612"
+					REGION="us-west-2"
+					CONTAINER="k8s-debian-test"
 					IMAGE_DIGEST=$(docker image inspect $AWS_ACCOUNT.dkr.ecr.$REGION.amazonaws.com/$CONTAINER:latest -f '{{join .RepoDigests ","}}')
 					ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $JOB_BASE_NAME --force
                         		argocd --grpc-web app set $JOB_BASE_NAME --kustomize-image $IMAGE_DIGEST
