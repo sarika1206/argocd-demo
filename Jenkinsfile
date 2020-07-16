@@ -59,7 +59,7 @@ pipeline {
 					echo $JOB_BASE_NAME
 					argocd app create $JOB_BASE_NAME --repo https://github.com/sarika1206/argocd-dome-deploy.git --revision HEAD --path e2e --dest-namespace preview --dest-server https://kubernetes.default.svc
 					ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $JOB_BASE_NAME --force
-					IMAGE_DIGEST=$(docker image inspect ${AWS_ACCOUNT}.${AWS_REGION}:latest -f '{{join .RepoDigests ","}}')
+					IMAGE_DIGEST=$(docker image inspect ${AWS_ACCOUNT}.${AWS_REGION}:latest -f "{{join .RepoDigests ','}}")
                         		argocd --grpc-web app set $JOB_BASE_NAME --kustomize-image $IMAGE_DIGEST
                         		ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $JOB_BASE_NAME --force
                         		ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app wait $JOB_BASE_NAME --timeout 600
