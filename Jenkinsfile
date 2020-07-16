@@ -51,7 +51,7 @@ pipeline {
                         
 			'''
 			script{
-				if (updated pr) {
+				if (closed pr) {
 					ARGOCD_SERVER="a55eda76d41234773a1192cfc5bf4acd-160446432.us-west-2.elb.amazonaws.com"
                         		ARGOCD_SERVER=$ARGOCD_SERVER
 					AWS_ACCOUNT="738507247612"
