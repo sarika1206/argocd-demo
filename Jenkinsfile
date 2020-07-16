@@ -75,7 +75,7 @@ pipeline {
                         		argocd --grpc-web app set $JOB_BASE_NAME --kustomize-image $IMAGE_DIGEST
                         		ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $JOB_BASE_NAME --force
                         		ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app wait $JOB_BASE_NAME --timeout 600
-				} else if (closed env.BRANCH_NAME) {
+				} else if (closed pr) {
 					argocd app delete $JOB_BASE_NAME
 				}
                         
