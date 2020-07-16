@@ -51,7 +51,7 @@ pipeline {
                         
 			'''
 			script{
-				if (updated env.BRANCH_NAME) {
+				if (new PR) {
 					ARGOCD_SERVER="a55eda76d41234773a1192cfc5bf4acd-160446432.us-west-2.elb.amazonaws.com"
                         		ARGOCD_SERVER=$ARGOCD_SERVER
 					AWS_ACCOUNT="738507247612"
@@ -64,7 +64,7 @@ pipeline {
                         		argocd --grpc-web app set $JOB_BASE_NAME --kustomize-image $IMAGE_DIGEST
                         		ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $JOB_BASE_NAME --force
                         		ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app wait $JOB_BASE_NAME --timeout 600
-				} else if (updated env.BRANCH_NAME) {
+				} else if (updated PR) {
 					ARGOCD_SERVER="a55eda76d41234773a1192cfc5bf4acd-160446432.us-west-2.elb.amazonaws.com"
                         		ARGOCD_SERVER=$ARGOCD_SERVER
 					AWS_ACCOUNT="738507247612"
