@@ -59,7 +59,7 @@ pipeline {
 					echo $IMAGE_DIGEST
 					$IMAGE_DIGEST
 					echo $JOB_BASE_NAME
-					argocd app create $JOB_BASE_NAME --repo https://github.com/sarika1206/argocd-dome-deploy.git --revision HEAD --path e2e --dest-server https://kubernetes.default.svc --dest-namespace preview
+					sh "\$(argocd app create $JOB_BASE_NAME --repo https://github.com/sarika1206/argocd-dome-deploy.git --revision HEAD --path e2e --dest-server https://kubernetes.default.svc --dest-namespace preview)"
 					sh "ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $JOB_BASE_NAME --force"
 					sh "argocd --grpc-web app set $JOB_BASE_NAME --kustomize-image $IMAGE_DIGEST"
                         		sh "ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $JOB_BASE_NAME --force"
