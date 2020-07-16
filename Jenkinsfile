@@ -55,7 +55,7 @@ pipeline {
 					AWS_ACCOUNT="738507247612"
 					AWS_REGION="us-west-2"
 					CONTAINER="k8s-debian-test"
-					sh "IMAGE_DIGEST=$(docker image inspect $AWS_ACCOUNT.dkr.ecr.$REGION.amazonaws.com/$CONTAINER:latest -f '{{join .RepoDigests ","}}')"
+					sh "IMAGE_DIGEST=$(docker image inspect $AWS_ACCOUNT.dkr.ecr.$REGION.amazonaws.com/$CONTAINER:latest -f '{{join .RepoDigests /",/"}}')"
 					echo $IMAGE_DIGEST
 					echo $JOB_BASE_NAME
 					argocd app create $JOB_BASE_NAME --repo https://github.com/sarika1206/argocd-dome-deploy.git --revision HEAD --path e2e --dest-namespace preview --dest-server https://kubernetes.default.svc
