@@ -45,18 +45,18 @@ pipeline {
                }
             }
 	    stage ('Deploy into preview env'){
-		    steps{
-			   withCredentials([string(credentialsId: "argocd-role", variable: 'ARGOCD_AUTH_TOKEN')]) {
+	    	steps{
+			withCredentials([string(credentialsId: "argocd-role", variable: 'ARGOCD_AUTH_TOKEN')]) {
 			 
 			script{
 				if (env.BRANCH_NAME.startsWith('PR') ) {
 					ARGOCD_SERVER="a55eda76d41234773a1192cfc5bf4acd-160446432.us-west-2.elb.amazonaws.com"
                         		ARGOCD_SERVER=$ARGOCD_SERVER
 					AWS_ACCOUNT="738507247612"
-					AWS_REGION=".dkr.ecr.us-west-2.amazonaws.com/K8s-debian-test"
+					AWS_REGION="us-west-2"
 					CONTAINER="k8s-debian-test"
-					JOIN="{{join .RepoDigests ','}}"
-					
+					IMAGE_DIGEST=$(docker image inspect $AWS_ACCOUNT.dkr.ecr.$REGION.amazonaws.com/$CONTAINER:latest -f '{{join .RepoDigests ","}}')
+					echo $IMAGE_DIGEST
 					echo $JOB_BASE_NAME
 					argocd app create $JOB_BASE_NAME --repo https://github.com/sarika1206/argocd-dome-deploy.git --revision HEAD --path e2e --dest-namespace preview --dest-server https://kubernetes.default.svc
 					ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $JOB_BASE_NAME --force
