@@ -55,7 +55,7 @@ pipeline {
 					AWS_ACCOUNT="738507247612"
 					AWS_REGION="us-west-2"
 					CONTAINER="k8s-debian-test"
-					sh "IMAGE_DIGEST=$(docker image inspect 738507247612.dkr.ecr.us-west-2.amazonaws.com/k8s-debian-test:latest -f '{{join .RepoDigests /",/"}}')"
+					sh IMAGE_DIGEST=$(docker image inspect 738507247612.dkr.ecr.us-west-2.amazonaws.com/k8s-debian-test:latest -f '{{join .RepoDigests /",/"}}')
 					echo $IMAGE_DIGEST
 					$IMAGE_DIGEST
 					echo $JOB_BASE_NAME
