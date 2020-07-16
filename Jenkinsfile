@@ -70,7 +70,10 @@ pipeline {
                         		ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app wait $JOB_BASE_NAME --timeout 600
 				 '''
 				} else {
+					sh
+					'''
 					argocd app delete $JOB_BASE_NAME
+					'''
 					}
                         
                		}
