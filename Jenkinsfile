@@ -57,7 +57,7 @@ pipeline {
 					AWS_ACCOUNT="738507247612"
 					REGION="us-west-2"
 					CONTAINER="k8s-debian-test"
-					IMAGE_DIGEST=$(docker image inspect ${AWS_ACCOUNT}.dkr.ecr.us-west-2.amazonaws.com/k8s-debian-test:latest -f '{{join .RepoDigests ","}}')
+					IMAGE_DIGEST=$(docker image inspect ${AWS_ACCOUNT}.dkr.ecr.us-west-2.amazonaws.com/k8s-debian-test::latest -f '{{join .RepoDigests ","}}')
 					echo $JOB_BASE_NAME
 					argocd app create $JOB_BASE_NAME --repo https://github.com/sarika1206/argocd-dome-deploy.git --revision HEAD --path e2e --dest-namespace preview --dest-server https://kubernetes.default.svc
 					ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $JOB_BASE_NAME --force
