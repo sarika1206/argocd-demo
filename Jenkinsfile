@@ -47,10 +47,7 @@ pipeline {
 	    stage ('Deploy into preview env'){
 		    steps{
 			   withCredentials([string(credentialsId: "argocd-role", variable: 'ARGOCD_AUTH_TOKEN')]) {
-			       sh '''
-                        	IMAGE_DIGEST=$(docker image inspect ${AWS_ACCOUNT}.dkr.ecr.us-west-2.amazonaws.com/k8s-debian-test::latest -f '{{join .RepoDigests ","}}')
-				IMAGE_DIGEST = $IMAGE_DIGEST
-			'''
+			 
 			script{
 				if (env.BRANCH_NAME.startsWith('PR') ) {
 					ARGOCD_SERVER="a55eda76d41234773a1192cfc5bf4acd-160446432.us-west-2.elb.amazonaws.com"
@@ -62,6 +59,7 @@ pipeline {
 					echo $JOB_BASE_NAME
 					argocd app create $JOB_BASE_NAME --repo https://github.com/sarika1206/argocd-dome-deploy.git --revision HEAD --path e2e --dest-namespace preview --dest-server https://kubernetes.default.svc
 					ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $JOB_BASE_NAME --force
+					IMAGE_DIGEST=$(docker image inspect ${AWS_ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com/${CONTAINER}:latest -f '{{join .RepoDigests ","}}')
                         		argocd --grpc-web app set $JOB_BASE_NAME --kustomize-image $IMAGE_DIGEST
                         		ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $JOB_BASE_NAME --force
                         		ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app wait $JOB_BASE_NAME --timeout 600
