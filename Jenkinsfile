@@ -58,12 +58,12 @@ pipeline {
 					CLUSTER="https://kubernetes.default.svc"
 					REPO="https://github.com/sarika1206/argocd-dome-deploy.git"
 					//IMAGE_DIGEST=$(docker image inspect $AWS_ACCOUNT.dkr.ecr.$REGION.amazonaws.com/$CONTAINER:latest -f '{{join .RepoDigests ","}}')
-				//	sh "IMAGE_DIGEST=\$(docker image inspect 738507247612.dkr.ecr.us-west-2.amazonaws.com/k8s-debian-test:latest -f '{{join .RepoDigests /",/"}}')"
-					sh "argocd app create $JOB_BASE_NAME --repo $REPO  --revision HEAD --path e2e --dest-server $CLUSTER --dest-namespace preview"
-					sh "ARGOCD_SERVER=\$(ARGOCD_SERVER argocd --grpc-web app sync $JOB_BASE_NAME --force)"
-					sh "argocd --grpc-web app set $JOB_BASE_NAME --kustomize-image $IMAGE_DIGEST"
-                        		sh "ARGOCD_SERVER=\$(ARGOCD_SERVER argocd --grpc-web app sync $JOB_BASE_NAME --force)"
-                        		sh "ARGOCD_SERVER=\$(ARGOCD_SERVER argocd --grpc-web app wait $JOB_BASE_NAME --timeout 600)"
+					sh "IMAGE_DIGEST=\$(docker image inspect 738507247612.dkr.ecr.us-west-2.amazonaws.com/k8s-debian-test:latest -f '{{join .RepoDigests /",/"}}')"
+				//	sh "argocd app create $JOB_BASE_NAME --repo $REPO  --revision HEAD --path e2e --dest-server $CLUSTER --dest-namespace preview"
+				//	sh "ARGOCD_SERVER=\$(ARGOCD_SERVER argocd --grpc-web app sync $JOB_BASE_NAME --force)"
+				//	sh "argocd --grpc-web app set $JOB_BASE_NAME --kustomize-image $IMAGE_DIGEST"
+                        	//	sh "ARGOCD_SERVER=\$(ARGOCD_SERVER argocd --grpc-web app sync $JOB_BASE_NAME --force)"
+                        	//	sh "ARGOCD_SERVER=\$(ARGOCD_SERVER argocd --grpc-web app wait $JOB_BASE_NAME --timeout 600)"
 			
 					}
 				}
