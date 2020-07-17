@@ -59,8 +59,8 @@ pipeline {
 			REPO="https://github.com/sarika1206/argocd-dome-deploy.git"
 			DIGEST='{{join .RepoDigests ","}}'
 			if (env.BRANCH_NAME.startsWith('PR') ){
-				sh "echo ${DIGEST}"
-				sh "IMAGE_DIGEST=\$(docker image inspect 738507247612.dkr.ecr.us-west-2.amazonaws.com/k8s-debian-test:latest -f ${DIGEST})"
+				sh "JOIN=\$(echo ${DIGEST})"
+				sh "IMAGE_DIGEST=\$(docker image inspect 738507247612.dkr.ecr.us-west-2.amazonaws.com/k8s-debian-test:latest -f $JOIN)"
 				}
 			}
 		    }
