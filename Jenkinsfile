@@ -69,9 +69,9 @@ pipeline {
                         		ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app wait $JOB_BASE_NAME --timeout 600
 			
 					}
-			}
-               	}
-            }
+				}
+               		}
+            	}
         }
     }
 }
