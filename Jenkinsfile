@@ -104,6 +104,7 @@ pipeline {
 						}
 					else {
 						stage('Deploy new code into preview env') {
+							input message:'Approve deployment once PR build is successfully created APP?'
 							sh''' 
 							ARGOCD_SERVER="a55eda76d41234773a1192cfc5bf4acd-160446432.us-west-2.elb.amazonaws.com"
                         				AWS_ACCOUNT="738507247612"
