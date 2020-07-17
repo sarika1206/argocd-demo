@@ -61,7 +61,7 @@ pipeline {
 				CLUSTER="https://kubernetes.default.svc"
 				REPO="https://github.com/sarika1206/argocd-dome-deploy.git"
 				IMAGE_DIGEST=$(docker image inspect $AWS_ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com/$CONTAINER:latest -f '{{join .RepoDigests ","}}')
-				argocd app create $JOB_BASE_NAME --repo $REPO  --revision HEAD --path e2e --dest-server $CLUSTER --dest-namespace preview
+				argocd app create $CHANGE_BRANCH --repo $REPO  --revision HEAD --path e2e --dest-server $CLUSTER --dest-namespace preview
 			#	"IMAGE_DIGEST=\$(docker image inspect 738507247612.dkr.ecr.us-west-2.amazonaws.com/k8s-debian-test:latest -f '{{join .RepoDigests \",\"}}')"
 			#	echo $IMAGE_DIGEST 
 				'''
