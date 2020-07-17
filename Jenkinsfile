@@ -46,13 +46,13 @@ pipeline {
                         '''
                }
             }
-
-      stage('Deploy into preview env') {
+      if (env.BRANCH_NAME.startsWith('PR') ){
+      	stage('Deploy into preview env') {
         steps {
           script{
 		withCredentials([string(credentialsId: "argocd-role", variable: 'ARGOCD_AUTH_TOKEN')]){
 			
-			if (env.BRANCH_NAME.startsWith('PR') ){
+			
 				sh''' 
 				ARGOCD_SERVER="a55eda76d41234773a1192cfc5bf4acd-160446432.us-west-2.elb.amazonaws.com"
                         	AWS_ACCOUNT="738507247612"
