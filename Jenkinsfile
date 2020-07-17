@@ -51,15 +51,19 @@ pipeline {
         steps {
           script{
 		withCredentials([string(credentialsId: "argocd-role", variable: 'ARGOCD_AUTH_TOKEN')]){
-			ARGOCD_SERVER="a55eda76d41234773a1192cfc5bf4acd-160446432.us-west-2.elb.amazonaws.com"
-                        AWS_ACCOUNT="738507247612"
-			AWS_REGION="us-west-2"
-			CONTAINER="k8s-debian-test"
-			CLUSTER="https://kubernetes.default.svc"
-			REPO="https://github.com/sarika1206/argocd-dome-deploy.git"
+			
 			if (env.BRANCH_NAME.startsWith('PR') ){
-				sh''' "IMAGE_DIGEST=\$(docker image inspect 738507247612.dkr.ecr.us-west-2.amazonaws.com/k8s-debian-test:latest -f '{{join .RepoDigests \",\"}}')"
-				echo $IMAGE_DIGEST 
+				sh''' 
+				ARGOCD_SERVER="a55eda76d41234773a1192cfc5bf4acd-160446432.us-west-2.elb.amazonaws.com"
+                        	AWS_ACCOUNT="738507247612"
+				AWS_REGION="us-west-2"
+				CONTAINER="k8s-debian-test"
+				CLUSTER="https://kubernetes.default.svc"
+				REPO="https://github.com/sarika1206/argocd-dome-deploy.git"
+				IMAGE_DIGEST=$(docker image inspect $AWS_ACCOUNT.dkr.ecr.$REGION.amazonaws.com/$CONTAINER:latest -f '{{join .RepoDigests ","}}')
+				argocd app create $JOB_BASE_NAME --repo $REPO  --revision HEAD --path e2e --dest-server $CLUSTER --dest-namespace preview
+			#	"IMAGE_DIGEST=\$(docker image inspect 738507247612.dkr.ecr.us-west-2.amazonaws.com/k8s-debian-test:latest -f '{{join .RepoDigests \",\"}}')"
+			#	echo $IMAGE_DIGEST 
 				'''
 				}
 			}
