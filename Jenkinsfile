@@ -96,6 +96,7 @@ pipeline {
                         				argocd --grpc-web app set $APP_NAME --kustomize-image $IMAGE_DIGEST
                      		                        ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $APP_NAME --force
                         				ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app wait $APP_NAME --timeout 600
+							'''
 							}
 						}
 		    			}
