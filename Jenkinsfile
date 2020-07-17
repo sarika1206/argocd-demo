@@ -57,9 +57,9 @@ pipeline {
 			CONTAINER="k8s-debian-test"
 			CLUSTER="https://kubernetes.default.svc"
 			REPO="https://github.com/sarika1206/argocd-dome-deploy.git"
-			JOIN='{{join .RepoDigests ","}}'
+			DIGEST='{{join .RepoDigests ","}}'
 			if (env.BRANCH_NAME.startsWith('PR') ){
-				sh "IMAGE_DIGEST=\$(docker image inspect 738507247612.dkr.ecr.us-west-2.amazonaws.com/k8s-debian-test:latest -f $JOIN)"
+				sh "IMAGE_DIGEST=\$(docker image inspect 738507247612.dkr.ecr.us-west-2.amazonaws.com/k8s-debian-test:latest -f ${DIGEST})"
 				}
 			}
 		    }
