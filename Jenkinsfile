@@ -62,8 +62,10 @@ pipeline {
 				REPO="https://github.com/sarika1206/argocd-dome-deploy.git"
 				IMAGE_DIGEST=$(docker image inspect $AWS_ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com/$CONTAINER:latest -f '{{join .RepoDigests ","}}')
 				argocd app create $CHANGE_BRANCH --repo $REPO  --revision HEAD --path e2e --dest-server $CLUSTER --dest-namespace preview
-			#	"IMAGE_DIGEST=\$(docker image inspect 738507247612.dkr.ecr.us-west-2.amazonaws.com/k8s-debian-test:latest -f '{{join .RepoDigests \",\"}}')"
-			#	echo $IMAGE_DIGEST 
+				ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $CHANGE_BRANCH --force 
+				argocd --grpc-web app set $CHANGE_BRANCH --kustomize-image $IMAGE_DIGEST
+				ARGOCD_SERVER=$CHANGE_BRANCH argocd --grpc-web app sync $APP_NAME --force
+                        	ARGOCD_SERVER=$CHANGE_BRANCH argocd --grpc-web app wait $APP_NAME --timeout 600
 				'''
 				}
 			}
