@@ -64,8 +64,8 @@ pipeline {
 				argocd app create $CHANGE_BRANCH --repo $REPO  --revision HEAD --path e2e --dest-server $CLUSTER --dest-namespace preview
 				ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $CHANGE_BRANCH --force 
 				argocd --grpc-web app set $CHANGE_BRANCH --kustomize-image $IMAGE_DIGEST
-				ARGOCD_SERVER=$CHANGE_BRANCH argocd --grpc-web app sync $APP_NAME --force
-                        	ARGOCD_SERVER=$CHANGE_BRANCH argocd --grpc-web app wait $APP_NAME --timeout 600
+				ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $CHANGE_BRANCH --force
+                        	ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app wait $CHANGE_BRANCH --timeout 600
 				'''
 				}
 			}
