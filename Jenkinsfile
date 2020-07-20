@@ -11,7 +11,8 @@ pipeline {
 	}
 	
     parameters{
-	    string(name:'PREVIEW_POOL', defaultValue: "pocapp2.rel.polysign.io","pocapp3.polysign.io","argocdapptest.rel.polysign.io", description: "Pool for ingress")}
+	    string(name:'PREVIEW_POOL', defaultValue: "pocapp2.rel.polysign.io,pocapp3.polysign.io,argocdapptest.rel.polysign.io", description: "Pool of ingress")
+    }
 
     stages {
 	stage('Prepare'){
