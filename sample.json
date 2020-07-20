@@ -3,7 +3,7 @@
         "Changes": [{
                 "Action": "CREATE",
                 "ResourceRecordSet": {
-                        "Name": "",
+                        "Name": "abcd",
                         "Type": "A",
                         "AliasTarget":{
                                 "HostedZoneId": "rel.ploysign.io",
