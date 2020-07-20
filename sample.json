@@ -1,0 +1,15 @@
+ 
+{
+        "Comment": "Creating Alias resource record sets in Route 53",
+        "Changes": [{
+                "Action": "CREATE",
+                "ResourceRecordSet": {
+                        "Name": "abcd",
+                        "Type": "A",
+                        "AliasTarget":{
+                                "HostedZoneId": "rel.ploysign.io",
+                                "DNSName": "ab2e9de5e3b644511924b744c8c88d6f-01d5e2c20997550d.elb.us-west-2.amazonaws.com",
+                                "EvaluateTargetHealth": false
+                              }}
+                          }]
+}
