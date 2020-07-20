@@ -72,7 +72,7 @@ pipeline {
 								echo "${pool[i]}"
 								sh"""
 								a = ${pool[i]}
-								echo \$a
+								echo $a
 								cd argocd-dome-deploy/preview/
 								#cat ingress.yaml
 								"""
