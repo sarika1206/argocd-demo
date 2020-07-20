@@ -9,6 +9,9 @@ pipeline {
     agent {
 	node {label 'master'}
 	}
+	
+    parameters{
+	    string(name:'PREVIEW_POOL', defaultValue: "pocapp2.rel.polysign.io","pocapp3.polysign.io","argocdapptest.rel.polysign.io", description: "Pool for ingress of preview env")}
 
     stages {
 	stage('Prepare'){
@@ -62,10 +65,15 @@ pipeline {
 								echo "Application not found"
 								'''
 							}
-							sh'''
-							cd argocd-dome-deploy/preview/
-							cat ingress.yaml
-							'''
+							def pool = "${params.PREVIEW_POOL}".split(',')
+							//find non used url
+							for (int i = 0; i < pool.length; i++) {
+								url = pool[i]
+								sh'''
+								echo $url
+								cd argocd-dome-deploy/preview/
+								cat ingress.yaml
+								'''
 						}
       						stage('Creating app in preview env') {
 							sh''' 
@@ -101,21 +109,21 @@ pipeline {
                         				ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app wait $APP_NAME --timeout 600
 							'''
 							}
-						stage('Deploy into production env'){
-							input message:'Approve deployment?'	
-							sh'''
-							ARGOCD_SERVER="a55eda76d41234773a1192cfc5bf4acd-160446432.us-west-2.elb.amazonaws.com"
-                        				APP_NAME="prod-test"
-                        				ARGOCD_SERVER=$ARGOCD_SERVER 
-							AWS_ACCOUNT="738507247612"
-			 				REGION="us-west-2"
-			 				CONTAINER="k8s-debian-test"
-							IMAGE_DIGEST=$(docker image inspect $AWS_ACCOUNT.dkr.ecr.$REGION.amazonaws.com/$CONTAINER:latest -f '{{join .RepoDigests ","}}')
-                        				argocd --grpc-web app set $APP_NAME --kustomize-image $IMAGE_DIGEST
-                     		                        ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $APP_NAME --force
-                        				ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app wait $APP_NAME --timeout 600
-							'''
-							}
+						//stage('Deploy into production env'){
+						//	input message:'Approve deployment?'	
+						//	sh'''
+						//	ARGOCD_SERVER="a55eda76d41234773a1192cfc5bf4acd-160446432.us-west-2.elb.amazonaws.com"
+                        			//	APP_NAME="prod-test"
+                        			//	ARGOCD_SERVER=$ARGOCD_SERVER 
+						//	AWS_ACCOUNT="738507247612"
+			 			//	REGION="us-west-2"
+			 			//	CONTAINER="k8s-debian-test"
+						//	IMAGE_DIGEST=$(docker image inspect $AWS_ACCOUNT.dkr.ecr.$REGION.amazonaws.com/$CONTAINER:latest -f '{{join .RepoDigests ","}}')
+                        			//	argocd --grpc-web app set $APP_NAME --kustomize-image $IMAGE_DIGEST
+                     		                //        ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $APP_NAME --force
+                        			//	ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app wait $APP_NAME --timeout 600
+						//	'''
+						//	}
 						}
 					else {
 						stage('Deploy new code into preview env') {
