@@ -71,9 +71,8 @@ pipeline {
 							for (int i = 0; i < pool.length; i++) {
 								echo "${pool[i]}"
 								def url = "${pool[i]}"
-								a = url.tostring()
 								sh'''
-								echo $a
+								echo $url
 								cd argocd-dome-deploy/preview/
 								#cat ingress.yaml
 								'''
