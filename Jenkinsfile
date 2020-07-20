@@ -51,10 +51,17 @@ pipeline {
           		script{
 				withCredentials([string(credentialsId: "argocd-role", variable: 'ARGOCD_AUTH_TOKEN')]){
 					if (env.BRANCH_NAME.startsWith('PR') ){
-						stage('Prepare')
-							sh'''
-							argocd app delete $CHANGE_BRANCH
-							'''
+						stage('Prepare'){
+							try{
+								sh'''
+								argocd app delete $CHANGE_BRANCH
+								'''
+							} catch(Exception ex){
+								sh'''
+								echo "Application not found"
+								'''
+							}
+						}
       						stage('Creating app in preview env') {
 							sh''' 
 							ARGOCD_SERVER="a55eda76d41234773a1192cfc5bf4acd-160446432.us-west-2.elb.amazonaws.com"
