@@ -61,6 +61,9 @@ pipeline {
 								echo "Application not found"
 								'''
 							}
+							sh'''
+							git clone https://github.com/sarika1206/argocd-dome-deploy.git
+							'''
 						}
       						stage('Creating app in preview env') {
 							sh''' 
