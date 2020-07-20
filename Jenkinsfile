@@ -62,7 +62,7 @@ pipeline {
 								'''
 							}
 							sh'''
-							git clone https://github.com/sarika1206/argocd-dome-deploy.git
+							cd argocd-dome-deploy/preview/
 							'''
 						}
       						stage('Creating app in preview env') {
