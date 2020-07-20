@@ -54,7 +54,9 @@ pipeline {
 						stage('Prepare'){
 							try{
 								sh'''
+								ARGOCD_SERVER="a55eda76d41234773a1192cfc5bf4acd-160446432.us-west-2.elb.amazonaws.com"
 								argocd app delete $CHANGE_BRANCH
+								ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app wait $CHANGE_BRANCH --timeout 600
 								'''
 							} catch(Exception ex){
 								sh'''
