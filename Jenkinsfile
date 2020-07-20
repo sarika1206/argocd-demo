@@ -69,7 +69,7 @@ pipeline {
 							def pool = "${params.PREVIEW_POOL}".split(',')
 							//find non used url
 							for (int i = 0; i < pool.length; i++) {
-								url = pool[i]
+								echo "${pool[i]} => ${url}"
 								sh'''
 								echo $url
 								cd argocd-dome-deploy/preview/
