@@ -63,6 +63,7 @@ pipeline {
 							}
 							sh'''
 							cd argocd-dome-deploy/preview/
+							cat ingress.yaml
 							'''
 						}
       						stage('Creating app in preview env') {
