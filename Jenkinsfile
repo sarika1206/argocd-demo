@@ -59,7 +59,7 @@ pipeline {
 							try{
 								sh'''
 								argocd app delete $CHANGE_BRANCH
-								sleep 2m
+								sleep 1m
 								'''
 							} catch(Exception ex){
 								sh'''
@@ -69,11 +69,12 @@ pipeline {
 							def pool = "${params.PREVIEW_POOL}".split(',')
 							//find non used url
 							for (int i = 0; i < pool.length; i++) {
-								echo "${pool[i]}"
+								a = ${pool[i]}
+								echo ${pool[i]}
 								sh'''
-								echo "${pool[i]}"
+								echo $a
 								cd argocd-dome-deploy/preview/
-								cat ingress.yaml
+								#cat ingress.yaml
 								'''
 							}
 						}
