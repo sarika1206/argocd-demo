@@ -55,17 +55,16 @@ pipeline {
 							sh''' 
 							ARGOCD_SERVER="a55eda76d41234773a1192cfc5bf4acd-160446432.us-west-2.elb.amazonaws.com"
                         				AWS_ACCOUNT="738507247612"
-							APP_NAME="preview-test"
 							AWS_REGION="us-west-2"
 							CONTAINER="k8s-debian-test"
 							CLUSTER="https://kubernetes.default.svc"
 							REPO="https://github.com/sarika1206/argocd-dome-deploy.git"
 							IMAGE_DIGEST=$(docker image inspect $AWS_ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com/$CONTAINER:latest -f '{{join .RepoDigests ","}}')
-							argocd app create $APP_NAME --repo $REPO  --revision HEAD --path e2e --dest-server $CLUSTER --dest-namespace preview
-							ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $APP_NAME --force 
-							argocd --grpc-web app set $APP_NAME --kustomize-image $IMAGE_DIGEST
-							ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $APP_NAME --force
-                        				ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app wait $APP_NAME --timeout 600
+							argocd app create $CHANGE_BRANCH --repo $REPO  --revision HEAD --path e2e --dest-server $CLUSTER --dest-namespace preview
+							ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $BRANCH_NAME --force 
+							argocd --grpc-web app set $CHANGE_BRANCH --kustomize-image $IMAGE_DIGEST
+							ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $CHANGE_BRANCH --force
+                        				ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app wait $CHANGE_BRANCH --timeout 600
 							'''
 							}
 						}
@@ -78,7 +77,7 @@ pipeline {
                         				AWS_ACCOUNT="738507247612"
 			 				REGION="us-west-2"
 			 				CONTAINER="k8s-debian-test"
-							argocd app delete $PRE_APP
+							#argocd app delete $PRE_APP
 							IMAGE_DIGEST=$(docker image inspect $AWS_ACCOUNT.dkr.ecr.$REGION.amazonaws.com/$CONTAINER:latest -f '{{join .RepoDigests ","}}')
                         				argocd --grpc-web app set $APP_NAME --kustomize-image $IMAGE_DIGEST
                         				# Deploy to ArgoCD
@@ -114,11 +113,10 @@ pipeline {
 							CLUSTER="https://kubernetes.default.svc"
 							REPO="https://github.com/sarika1206/argocd-dome-deploy.git"
 							IMAGE_DIGEST=$(docker image inspect $AWS_ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com/$CONTAINER:latest -f '{{join .RepoDigests ","}}')
-							ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $APP_NAME --force 
-							argocd --grpc-web app set $APP_NAME --kustomize-image $IMAGE_DIGEST
-							ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $APP_NAME --force
-                        				ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app wait $APP_NAME --timeout 600
-							# git commit -a -m 'Here is a new feature'
+							ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $BRANCH_NAME --force 
+							argocd --grpc-web app set $BRANCH_NAME --kustomize-image $IMAGE_DIGEST
+							ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $BRANCH_NAME --force
+                        				ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app wait $BRANCH_NAME --timeout 600
 							'''
 							}
 						}
