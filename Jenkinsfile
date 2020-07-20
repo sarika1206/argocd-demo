@@ -70,13 +70,12 @@ pipeline {
 							//find non used url
 							for (int i = 0; i < pool.length; i++) {
 								echo "${pool[i]}"
-								sh "echo \${pool[i]}"
-								//def url = "${pool[i]}"
-								sh'''
-								echo "\${pool[i]}"
+								sh"""
+								url = ${pool[i]}
+								echo $url
 								cd argocd-dome-deploy/preview/
 								#cat ingress.yaml
-								'''
+								"""
 							}
 						}
       						stage('Creating app in preview env') {
