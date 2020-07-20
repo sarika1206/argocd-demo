@@ -70,9 +70,9 @@ pipeline {
 							//find non used url
 							for (int i = 0; i < pool.length; i++) {
 								echo "${pool[i]}"
-								def url = "${pool[i]}"
+								//def url = "${pool[i]}"
 								sh'''
-								echo $url
+								echo \${pool[i]}
 								cd argocd-dome-deploy/preview/
 								#cat ingress.yaml
 								'''
