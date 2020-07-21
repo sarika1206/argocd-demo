@@ -84,9 +84,9 @@ pipeline {
 								#echo \${b}
 								#sed -i 's/ \${a}/\${b}/g' argocd-dome-deploy/preview/ingress.yaml
 								"""
+							}
 							echo "${a}"
 							echo "${b}"
-							}
 						}
       						stage('Creating app in preview env') {
 							sh''' 
