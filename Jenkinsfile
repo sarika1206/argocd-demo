@@ -84,8 +84,10 @@ pipeline {
 								}
 							}
 							echo "Already_used => $domain1 , free => $domain2 "
-							echo domain1[0]
-							echo domain2[0]
+							a = domain1[0]
+							b = domain2[0]
+							echo "$a, $b"
+							def replace = sh returnStatus: true, script: "sed -i 's/\"$a\"/\"$b\"/g' argocd-dome-deploy/preview/ingress.yaml"
 							//	sh"""
 							//	#!/bin/bash
 								
