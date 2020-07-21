@@ -74,15 +74,18 @@ pipeline {
 								def domain = "${pool[i]}"								
 								//def a = "https://"+"${pool[i]}"
 								//def res = sh(script: "curl --insecure '$a' -w '%{http_code}'")
-								def status = sh (script:"grep -q '$domain' argocd-dome-deploy/preview/ingress.yaml && echo '\$?'")
+								//def status = sh (script: sh "grep -q '$domain' argocd-dome-deploy/preview/ingress.yaml && echo '\$?'")
 								//if ($status == 0){
 								//	sh'''
 								//	sed -i 's/"$domain"/
-								echo "$status"	
+								//echo "$status"	
 								sh"""
-								#'$status'
-								cd argocd-dome-deploy/preview/
-								#cat ingress.yaml
+								if grep -q '$domain' argocd-dome-deploy/preview/ingress.yaml; then
+									string1 = '$domain'
+								else
+									string2 = '$domain'
+								fi
+								sed -i 's/"$string1"/"$string2"/g' argocd-dome-deploy/preview/ingress.yaml
 								"""
 							}
 						}
