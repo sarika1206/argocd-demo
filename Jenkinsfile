@@ -80,12 +80,12 @@ pipeline {
 								if (0 == status){
 									echo "abcd"
 									def domain1 = "$domain"
-									echo $domain1
+									echo "$domain1"
 								}
 								else{ 
 									echo "defg"
 									def domain2 = "$domain"
-									echo "$domain2"
+									echo "${domain2}"
 								}
 							}
 							"${domain1}"
