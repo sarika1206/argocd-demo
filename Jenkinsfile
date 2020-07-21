@@ -69,10 +69,19 @@ pipeline {
 							def pool = "${params.PREVIEW_POOL}".split(',')
 							//find non used url
 							for (int i = 0; i < pool.length; i++) {
-								def a = "https://"+"${pool[i]}"
-								def res = sh(script: "curl --insecure '$a' -w '%{http_code}'")
+								def domain1 = "${pool[i]}"
+								def domain2 = "${pool[i+1]}"
+								
+								//def a = "https://"+"${pool[i]}"
+								//def res = sh(script: "curl --insecure '$a' -w '%{http_code}'")
+								//def status = sh "grep -q '$domain' argocd-dome-deploy/preview/ingress.yaml && echo $?"
+								//if ($status == 0){
+								//	sh'''
+								//	sed -i 's/"$domain"/
+									
 								sh"""
-								"$res"
+								"$domain1"
+								"$domain2"
 								cd argocd-dome-deploy/preview/
 								#cat ingress.yaml
 								"""
