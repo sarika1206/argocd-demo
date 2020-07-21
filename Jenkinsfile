@@ -84,7 +84,8 @@ pipeline {
 								}
 							}
 							echo "Already_used => $domain1 , free => $domain2 "
-							echo "$domain1[0], $domain2[0]"
+							echo domain1[0]
+							echo domain2[0]
 							//	sh"""
 							//	#!/bin/bash
 								
