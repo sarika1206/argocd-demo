@@ -72,7 +72,7 @@ pipeline {
 							for (int i = 0; i < pool.length; i++) {
 								def domain = "${pool[i]}"
 								//def status = 'cat argocd-dome-deploy/preview/ingress.yaml|grep \"$domain\"'
-								def status = sh (returnStdout: true, script: "uname") //"grep -q \"$domain\" argocd-dome-deploy/preview/ingress.yaml"
+								def status = sh (returnStdout: true, script: uname) //"grep -q \"$domain\" argocd-dome-deploy/preview/ingress.yaml"
 								"${status}"
 							//	sh"""
 							//	#!/bin/bash
