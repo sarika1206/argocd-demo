@@ -4,11 +4,17 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 import groovy.json.JsonSlurper
 
+domain1 = []
+domain2 = []
 
 pipeline {
     agent {
 	node {label 'master'}
 	}
+	
+    parameters{
+	    string(name:'PREVIEW_POOL', defaultValue: "argocdapptest.rel.polysign.io,pocapp2.rel.polysign.io,pocapp3.polysign.io", description: "Pool of ingress")
+    }
 
     stages {
 	stage('Prepare'){
@@ -51,7 +57,49 @@ pipeline {
           		script{
 				withCredentials([string(credentialsId: "argocd-role", variable: 'ARGOCD_AUTH_TOKEN')]){
 					if (env.BRANCH_NAME.startsWith('PR') ){
-      						stage('Creating app in preview env') {
+						stage('Prepare'){
+							try{
+								sh'''
+								argocd app delete $CHANGE_BRANCH
+								sleep 1m
+								'''
+							} catch(Exception ex){
+								sh'''
+								echo "Application not found"
+								'''
+							}
+							def pool = "${params.PREVIEW_POOL}".split(',')
+							sh'''
+							git clone https://github.com/sarika1206/argocd-dome-deploy.git
+							'''
+							for (int i = 0; i < pool.length; i++) {
+								def domain = "${pool[i]}"
+								def status = sh returnStatus: true, script: "grep -q \"$domain\" argocd-dome-deploy/preview/ingress.yaml && echo \$?"
+								"${status}"
+								if (0 == status){
+									domain1.add("$domain")
+								}
+								else{ 
+									domain2.add("$domain")
+								}
+							}
+							echo "Already_used => $domain1 , free => $domain2 "
+							a = domain1[0]
+							b = domain2[0]
+							echo "$a, $b"
+							def replace = sh returnStatus: true, script: "sed -i 's/$a/$b/g' argocd-dome-deploy/preview/ingress.yaml"
+							sh'''
+							cd argocd-dome-deploy/
+							git status
+							git add preview/ingress.yaml
+							git commit -m "updated preview url in ingress.yaml"
+							git push
+							cd ..
+							rm -rf argocd-dome-deploy/
+							'''
+							
+						}
+      						stage('Deploying application in preview env') {
 							sh''' 
 							ARGOCD_SERVER="a55eda76d41234773a1192cfc5bf4acd-160446432.us-west-2.elb.amazonaws.com"
                         				AWS_ACCOUNT="738507247612"
@@ -68,14 +116,14 @@ pipeline {
 							'''
 							}
 						}
-					else if (env.BRANCH_NAME == 'master' ){
+					if (env.BRANCH_NAME == 'master' ){
       						stage('Deploy into staging env') {
 							sh''' 
 							ARGOCD_SERVER="a55eda76d41234773a1192cfc5bf4acd-160446432.us-west-2.elb.amazonaws.com"
                         				APP_NAME="debian-test"
 							PRE_APP="preview-test"
                         				AWS_ACCOUNT="738507247612"
-			 				REGION="us-west-2"
+							REGION="us-west-2"
 			 				CONTAINER="k8s-debian-test"
 							#argocd app delete $PRE_APP
 							IMAGE_DIGEST=$(docker image inspect $AWS_ACCOUNT.dkr.ecr.$REGION.amazonaws.com/$CONTAINER:latest -f '{{join .RepoDigests ","}}')
@@ -92,7 +140,7 @@ pipeline {
                         				APP_NAME="prod-test"
                         				ARGOCD_SERVER=$ARGOCD_SERVER 
 							AWS_ACCOUNT="738507247612"
-			 				REGION="us-west-2"
+							REGION="us-west-2"
 			 				CONTAINER="k8s-debian-test"
 							IMAGE_DIGEST=$(docker image inspect $AWS_ACCOUNT.dkr.ecr.$REGION.amazonaws.com/$CONTAINER:latest -f '{{join .RepoDigests ","}}')
                         				argocd --grpc-web app set $APP_NAME --kustomize-image $IMAGE_DIGEST
@@ -101,25 +149,7 @@ pipeline {
 							'''
 							}
 						}
-					else {
-						stage('Deploy new code into preview env') {
-							input message:'Approve deployment once PR build is successfully created APP?'
-							sh''' 
-							ARGOCD_SERVER="a55eda76d41234773a1192cfc5bf4acd-160446432.us-west-2.elb.amazonaws.com"
-                        				AWS_ACCOUNT="738507247612"
-							AWS_REGION="us-west-2"
-							APP_NAME="preview-test"
-							CONTAINER="k8s-debian-test"
-							CLUSTER="https://kubernetes.default.svc"
-							REPO="https://github.com/sarika1206/argocd-dome-deploy.git"
-							IMAGE_DIGEST=$(docker image inspect $AWS_ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com/$CONTAINER:latest -f '{{join .RepoDigests ","}}')
-							ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $BRANCH_NAME --force 
-							argocd --grpc-web app set $BRANCH_NAME --kustomize-image $IMAGE_DIGEST
-							ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $BRANCH_NAME --force
-                        				ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app wait $BRANCH_NAME --timeout 600
-							'''
-							}
-						}
+					
 		    			}
 				}
      	   		 }
