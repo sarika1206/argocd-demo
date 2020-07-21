@@ -87,6 +87,7 @@ pipeline {
 							echo "$a, $b"
 							def replace = sh returnStatus: true, script: "sed -i 's/$a/$b/g' argocd-dome-deploy/preview/ingress.yaml"
 							sh'''
+							git clone https://github.com/sarika1206/argocd-dome-deploy.git
 							cd argocd-dome-deploy/
 							git status
 							git add preview/ingress.yaml
