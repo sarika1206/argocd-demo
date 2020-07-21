@@ -78,9 +78,9 @@ pipeline {
 								//if ($status == 0){
 								//	sh'''
 								//	sed -i 's/"$domain"/
-									
+								echo "$status"	
 								sh"""
-								'$status'
+								#'$status'
 								cd argocd-dome-deploy/preview/
 								#cat ingress.yaml
 								"""
