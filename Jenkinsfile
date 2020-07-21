@@ -71,7 +71,7 @@ pipeline {
 							def pool = "${params.PREVIEW_POOL}".split(',')
 							//find non used url
 							for (int i = 0; i < pool.length; i++) {
-								def domain = "${pool[i]}								
+								def domain = "${pool[i]}"								
 								//def a = "https://"+"${pool[i]}"
 								//def res = sh(script: "curl --insecure '$a' -w '%{http_code}'")
 								def status = sh returnStdout: true, script:"grep -q '$domain' argocd-dome-deploy/preview/ingress.yaml && echo $?"
