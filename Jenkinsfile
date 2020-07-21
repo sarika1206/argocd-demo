@@ -69,7 +69,9 @@ pipeline {
 								'''
 							}
 							def pool = "${params.PREVIEW_POOL}".split(',')
-							
+							sh'''
+							git clone https://github.com/sarika1206/argocd-dome-deploy.git
+							'''
 							for (int i = 0; i < pool.length; i++) {
 								def domain = "${pool[i]}"
 								def status = sh returnStatus: true, script: "grep -q \"$domain\" argocd-dome-deploy/preview/ingress.yaml && echo \$?"
@@ -91,7 +93,9 @@ pipeline {
 							git status
 							git add preview/ingress.yaml
 							git commit -m "updated preview url in ingress.yaml"
-							git push --set-upstream origin master
+							git push
+							cd ..
+							rm -rf argocd-dome-deploy/
 							'''
 							
 						}
