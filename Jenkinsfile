@@ -74,7 +74,6 @@ pipeline {
 							//b=""
 							for (int i = 0; i < pool.length; i++) {
 								def domain = "${pool[i]}"
-								//def status = 'cat argocd-dome-deploy/preview/ingress.yaml|grep \"$domain\"'
 								def status = sh returnStatus: true, script: "grep -q \"$domain\" argocd-dome-deploy/preview/ingress.yaml && echo \$?"
 								"${status}"
 								if (0 == status){
@@ -85,6 +84,7 @@ pipeline {
 								}
 							}
 							echo "Already_used => $domain1 , free => $domain2 "
+							echo "$domain1[0], $domain2[0]"
 							//	sh"""
 							//	#!/bin/bash
 								
