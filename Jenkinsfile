@@ -70,9 +70,9 @@ pipeline {
 							//find non used url
 							for (int i = 0; i < pool.length; i++) {
 								def a = echo "https://"+"${pool[i]}"
-								def res = sh(script: 'curl --insecure "\${a}"', returnStdout: true)
+								//def res = sh(script: 'curl --insecure "\${a}"', returnStdout: true)
 								sh"""
-								
+								echo "\${a}"
 								cd argocd-dome-deploy/preview/
 								#cat ingress.yaml
 								"""
