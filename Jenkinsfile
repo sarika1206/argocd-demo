@@ -79,8 +79,6 @@ pipeline {
 									a=${domain}
 								else
 									b=${domain}
-								\${a}
-								\${b}
 								sed -i 's/ \${a}/\${b}/g' argocd-dome-deploy/preview/ingress.yaml
 								fi
 								"""
