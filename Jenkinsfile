@@ -77,7 +77,7 @@ pipeline {
 								//def status = 'cat argocd-dome-deploy/preview/ingress.yaml|grep \"$domain\"'
 								def status = sh returnStatus: true, script: "grep -q \"$domain\" argocd-dome-deploy/preview/ingress.yaml && echo \$?"
 								"${status}"
-								if ("0" == status.trim()){
+								if ("0" == status){
 									def domain1 = "$domain"
 									"${domain1}"
 								}
