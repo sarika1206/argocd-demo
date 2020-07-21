@@ -4,8 +4,8 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 import groovy.json.JsonSlurper
 
-string1 = ""
-string2 = ""
+string1=""
+string2=""
 
 pipeline {
     agent {
@@ -81,9 +81,9 @@ pipeline {
 								//echo "$status"	
 								sh"""
 								if grep -q '$domain' argocd-dome-deploy/preview/ingress.yaml; then
-									string1 = '$domain'
+									string1='$domain'
 								else
-									string2 = '$domain'
+									string2='$domain'
 								fi
 								sed -i 's/"$string1"/"$string2"/g' argocd-dome-deploy/preview/ingress.yaml
 								"""
