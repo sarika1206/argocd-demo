@@ -76,8 +76,10 @@ pipeline {
 								"${status}"
 								if ("$status" == 0){
 									def domain1 = "$domain"
-								else 
+								}
+								else{ 
 									def domain2 = "$domain"
+								}
 							"$domain1"
 							"$domain2"
 							//	sh"""
