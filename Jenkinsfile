@@ -70,7 +70,7 @@ pipeline {
 							for (int i = 0; i < pool.length; i++) {
 								def domain = "${pool[i]}"								
 									
-								sh'''
+								sh"""
 								if grep -q "$domain" argocd-dome-deploy/preview/ingress.yaml; then
 									DOMAIN1="$domain"
 									echo $DOMAIN1
@@ -81,7 +81,7 @@ pipeline {
 								#echo string2
 								#sed -i 's/ \$string1/\$string2/g' argocd-dome-deploy/preview/ingress.yaml
 								fi
-								'''
+								"""
 							}
 						}
       						stage('Creating app in preview env') {
