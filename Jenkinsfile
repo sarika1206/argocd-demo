@@ -91,7 +91,7 @@ pipeline {
 							git status
 							git add preview/ingress.yaml
 							git commit -m "updated preview url in ingress.yaml"
-							git push --set-upstream origin master
+							git push
 							'''
 							
 						}
