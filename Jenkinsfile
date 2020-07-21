@@ -81,7 +81,7 @@ pipeline {
 									domain1.add("$domain")
 								}
 								else{ 
-									domain2.add("$domain)
+									domain2.add("$domain")
 								}
 							}
 							echo "Already_used => $domain1 , free => $domain2 "
