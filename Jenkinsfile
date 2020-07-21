@@ -85,6 +85,8 @@ pipeline {
 								else
 									string2='$domain'
 								fi
+								echo $string1
+								echo $string2
 								sed -i 's/"\$string1"/"\$string2"/g' argocd-dome-deploy/preview/ingress.yaml
 								"""
 							}
