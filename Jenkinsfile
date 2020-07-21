@@ -82,12 +82,12 @@ pipeline {
 								sh"""
 								if grep -q '$domain' argocd-dome-deploy/preview/ingress.yaml; then
 									string1='$domain'
-									echo $string1
+									echo string1
 								else
 									string2='$domain'
-									echo $string2
-								echo $string1
-								echo $string2
+									echo string2
+								echo string1
+								echo string2
 								sed -i 's/ \$string1/\$string2/g' argocd-dome-deploy/preview/ingress.yaml
 								fi
 								"""
