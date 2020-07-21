@@ -72,6 +72,8 @@ pipeline {
 									
 								sh"""
 								#!/bin/bash
+								a=""
+								b=""
 								if grep -q "$domain" argocd-dome-deploy/preview/ingress.yaml; then
 									a="$domain"
 									echo $a
