@@ -80,8 +80,8 @@ pipeline {
 								//	sed -i 's/"$domain"/
 									
 								sh"""
-								"$domain1"
-								"$domain2"
+								'$domain1'
+								'$domain2'
 								cd argocd-dome-deploy/preview/
 								#cat ingress.yaml
 								"""
