@@ -89,6 +89,7 @@ pipeline {
 							sh'''
 							cd argocd-dome-deploy/
 							git status
+							git add preview/ingress.yaml
 							git commit -m "updated preview url in ingress.yaml"
 							git push
 							'''
