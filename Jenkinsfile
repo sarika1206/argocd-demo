@@ -4,8 +4,8 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 import groovy.json.JsonSlurper
 
-domain1 = "abc"
-domain2 = "def"
+domain1 = []
+domain2 = []
 
 pipeline {
     agent {
@@ -78,18 +78,13 @@ pipeline {
 								def status = sh returnStatus: true, script: "grep -q \"$domain\" argocd-dome-deploy/preview/ingress.yaml && echo \$?"
 								"${status}"
 								if (0 == status){
-									echo "abcd"
-									def domain1 = "$domain"
+									domain1.add("$domain")
 								}
 								else{ 
-									echo "defg"
-									def domain2 = "$domain"
+									domain2.add("$domain)
 								}
 							}
-							echo "hijk"
-							echo "${domain1}"
-							echo "lmno"
-							echo "${domain2}"
+							echo "Already_used => $domain1 , free => $domain2 "
 							//	sh"""
 							//	#!/bin/bash
 								
