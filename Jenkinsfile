@@ -4,6 +4,9 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 import groovy.json.JsonSlurper
 
+domain1 = ""
+domain2 = ""
+
 pipeline {
     agent {
 	node {label 'master'}
