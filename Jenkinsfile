@@ -71,22 +71,23 @@ pipeline {
 							//b=""
 							for (int i = 0; i < pool.length; i++) {
 								def domain = "${pool[i]}"								
-									
-								sh"""
-								#!/bin/bash
+								def status = sh returnStdout: true, script: "grep -q \"$domain\" argocd-dome-deploy/preview/ingress.yaml"
+								echo ${status}
+							//	sh"""
+							//	#!/bin/bash
 								
-								if grep -q "$domain" argocd-dome-deploy/preview/ingress.yaml; then
-									a=${domain}
-								else
-									b=${domain}
-								fi
-								#echo \${a}
-								#echo \${b}
-								#sed -i 's/ \${a}/\${b}/g' argocd-dome-deploy/preview/ingress.yaml
-								"""
+							//	if grep -q "$domain" argocd-dome-deploy/preview/ingress.yaml; then
+							//		a=${domain}
+							//	else
+							//		b=${domain}
+							//	fi
+							//	#echo \${a}
+							//	#echo \${b}
+							//	#sed -i 's/ \${a}/\${b}/g' argocd-dome-deploy/preview/ingress.yaml
+							//	"""
 							}
-							echo "${a}"
-							echo "${b}"
+						//	echo "${a}"
+						//	echo "${b}"
 						}
       						stage('Creating app in preview env') {
 							sh''' 
