@@ -77,8 +77,12 @@ pipeline {
 								
 								if grep -q "$domain" argocd-dome-deploy/preview/ingress.yaml; then
 									a=${domain}
+									echo \${a}
 								else
 									b=${domain}
+									echo \${b}
+								echo \${a}
+								echo \${b}
 								sed -i 's/ \${a}/\${b}/g' argocd-dome-deploy/preview/ingress.yaml
 								fi
 								"""
