@@ -71,11 +71,11 @@ pipeline {
 								def domain = "${pool[i]}"								
 									
 								sh'''
-								if grep -q '$domain' argocd-dome-deploy/preview/ingress.yaml; then
-									DOMAIN1='$domain'
+								if grep -q "$domain" argocd-dome-deploy/preview/ingress.yaml; then
+									DOMAIN1="$domain"
 									echo $DOMAIN1
 								else
-									DOMAIN2='$domain'
+									DOMAIN2="$domain"
 									echo $DOMAIN2
 								#echo string1
 								#echo string2
