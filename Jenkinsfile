@@ -72,10 +72,10 @@ pipeline {
 									
 								sh"""
 								if grep -q "$domain" argocd-dome-deploy/preview/ingress.yaml; then
-									a="$domain"
+									a="domain1"
 									echo $a
 								else
-									b="$domain"
+									b="domain2"
 									echo $b
 								#echo string1
 								#echo string2
