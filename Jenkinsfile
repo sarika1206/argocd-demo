@@ -4,8 +4,8 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 import groovy.json.JsonSlurper
 
-domain1 = ""
-domain2 = ""
+domain1 = "abc"
+domain2 = "def"
 
 pipeline {
     agent {
@@ -79,9 +79,11 @@ pipeline {
 								"${status}"
 								if ("$status" == 0){
 									def domain1 = "$domain"
+									"$domain1"
 								}
 								else{ 
 									def domain2 = "$domain"
+									"$domain2"
 								}
 							"$domain1"
 							"$domain2"
