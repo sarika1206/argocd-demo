@@ -77,16 +77,17 @@ pipeline {
 								//def status = 'cat argocd-dome-deploy/preview/ingress.yaml|grep \"$domain\"'
 								def status = sh returnStatus: true, script: "grep -q \"$domain\" argocd-dome-deploy/preview/ingress.yaml && echo \$?"
 								"${status}"
-								if ("$status" == "0"){
+								if ("${status}" == "0"){
 									def domain1 = "$domain"
-									"$domain1"
+									"${domain1}"
 								}
 								else{ 
 									def domain2 = "$domain"
-									"$domain2"
+									"${domain2}"
 								}
-							"$domain1"
-							"$domain2"
+							}
+							"${domain1}"
+							"${domain2}"
 							//	sh"""
 							//	#!/bin/bash
 								
@@ -99,7 +100,7 @@ pipeline {
 							//	#echo \${b}
 							//	#sed -i 's/ \${a}/\${b}/g' argocd-dome-deploy/preview/ingress.yaml
 							//	"""
-							}
+				
 						//	echo "${a}"
 						//	echo "${b}"
 						}
