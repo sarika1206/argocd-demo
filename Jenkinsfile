@@ -86,6 +86,12 @@ pipeline {
 							b = domain2[0]
 							echo "$a, $b"
 							def replace = sh returnStatus: true, script: "sed -i 's/$a/$b/g' argocd-dome-deploy/preview/ingress.yaml"
+							sh'''
+							cd argocd-dome-deploy/
+							git status
+							git commit -m "updated preview url in ingress.yaml"
+							git push
+							'''
 							
 						}
       						stage('Deploying application in preview env') {
