@@ -67,13 +67,14 @@ pipeline {
 							}
 							def pool = "${params.PREVIEW_POOL}".split(',')
 							//find non used url
+							a=""
+							b=""
 							for (int i = 0; i < pool.length; i++) {
 								def domain = "${pool[i]}"								
 									
 								sh"""
 								#!/bin/bash
-								a=""
-								b=""
+								
 								if grep -q "$domain" argocd-dome-deploy/preview/ingress.yaml; then
 									a="$domain"
 									echo $a
