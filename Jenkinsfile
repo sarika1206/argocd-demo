@@ -4,6 +4,8 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 import groovy.json.JsonSlurper
 
+string1 = ""
+string2 = ""
 
 pipeline {
     agent {
@@ -69,19 +71,16 @@ pipeline {
 							def pool = "${params.PREVIEW_POOL}".split(',')
 							//find non used url
 							for (int i = 0; i < pool.length; i++) {
-								def domain1 = "${pool[i]}"
-								def domain2 = "${pool[i+1]}"
-								
+								def domain = "${pool[i]}								
 								//def a = "https://"+"${pool[i]}"
 								//def res = sh(script: "curl --insecure '$a' -w '%{http_code}'")
-								//def status = sh "grep -q '$domain' argocd-dome-deploy/preview/ingress.yaml && echo $?"
+								def status = sh returnStdout: true, script:"grep -q '$domain' argocd-dome-deploy/preview/ingress.yaml && echo $?"
 								//if ($status == 0){
 								//	sh'''
 								//	sed -i 's/"$domain"/
 									
 								sh"""
-								'$domain1'
-								'$domain2'
+								'$status'
 								cd argocd-dome-deploy/preview/
 								#cat ingress.yaml
 								"""
