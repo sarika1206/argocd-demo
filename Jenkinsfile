@@ -69,8 +69,9 @@ pipeline {
 							def pool = "${params.PREVIEW_POOL}".split(',')
 							//find non used url
 							for (int i = 0; i < pool.length; i++) {
-								echo "${pool[i]}"
-								def res = sh(script: 'curl --insecure ${pool[i]}', returnStdout: true)
+								echo "https://"+"${pool[i]}"
+								str = "https://"+"${pool[i]}"
+								def res = sh(script: 'curl --insecure ${str}', returnStdout: true)
 								sh"""
 								
 								cd argocd-dome-deploy/preview/
