@@ -72,7 +72,7 @@ pipeline {
 								def a = echo "https://"+"${pool[i]}"
 								//def res = sh(script: 'curl --insecure "\${a}"', returnStdout: true)
 								sh"""
-								$a
+								a
 								cd argocd-dome-deploy/preview/
 								#cat ingress.yaml
 								"""
