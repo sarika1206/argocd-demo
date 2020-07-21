@@ -67,8 +67,8 @@ pipeline {
 							}
 							def pool = "${params.PREVIEW_POOL}".split(',')
 							//find non used url
-							a=""
-							b=""
+							//a=""
+							//b=""
 							for (int i = 0; i < pool.length; i++) {
 								def domain = "${pool[i]}"								
 									
@@ -82,7 +82,7 @@ pipeline {
 									b=${domain}
 									echo \${a}
 									echo \${b}
-									sed -i 's/ \${a}/\${b}/g' argocd-dome-deploy/preview/ingress.yaml
+								sed -i 's/ \${a}/\${b}/g' argocd-dome-deploy/preview/ingress.yaml
 								fi
 								"""
 							}
