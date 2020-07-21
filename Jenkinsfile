@@ -4,9 +4,6 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 import groovy.json.JsonSlurper
 
-string1="abc"
-string2="def"
-
 pipeline {
     agent {
 	node {label 'master'}
@@ -72,13 +69,7 @@ pipeline {
 							//find non used url
 							for (int i = 0; i < pool.length; i++) {
 								def domain = "${pool[i]}"								
-								//def a = "https://"+"${pool[i]}"
-								//def res = sh(script: "curl --insecure '$a' -w '%{http_code}'")
-								//def status = sh (script: sh "grep -q '$domain' argocd-dome-deploy/preview/ingress.yaml && echo '\$?'")
-								//if ($status == 0){
-								//	sh'''
-								//	sed -i 's/"$domain"/
-								//echo "$status"	
+									
 								sh"""
 								if grep -q '$domain' argocd-dome-deploy/preview/ingress.yaml; then
 									string1='$domain'
