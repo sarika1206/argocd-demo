@@ -80,10 +80,9 @@ pipeline {
 									echo \${a}
 								else
 									b=${domain}
+									echo \${a}
 									echo \${b}
-								echo \${a}
-								echo \${b}
-								sed -i 's/ \${a}/\${b}/g' argocd-dome-deploy/preview/ingress.yaml
+									sed -i 's/ \${a}/\${b}/g' argocd-dome-deploy/preview/ingress.yaml
 								fi
 								"""
 							}
