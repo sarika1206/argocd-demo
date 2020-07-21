@@ -4,8 +4,8 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 import groovy.json.JsonSlurper
 
-//string1=""
-//string2=""
+string1=""
+string2=""
 
 pipeline {
     agent {
