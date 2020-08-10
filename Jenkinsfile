@@ -7,15 +7,15 @@ pipeline {
     
     stages {       
         stage('Prepare') {
-            steps {
-                checkout([$class: 'GitSCM',
-                branches: [[name: "origin\master"]],
-                doGenerateSubmoduleConfigurations: false,
-                submoduleCfg: [],
-                userRemoteConfigs: [[
-                    url: 'https://github.com/sarika1206/argocd-demo.git']]
-                ])
-            }
+            ssteps {
+                	checkout([$class: 'GitSCM',
+                	branches: [[name: "origin\master"]],
+                	doGenerateSubmoduleConfigurations: false,
+                	submoduleCfg: [],
+                	userRemoteConfigs: [[
+                	    url: 'https://github.com/sarika1206/argocd-demo.git']]
+                	])
+            		}
         }
         stage ('Docker_Build') {
             steps {
