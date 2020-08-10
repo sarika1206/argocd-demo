@@ -55,7 +55,7 @@ pipeline {
 	    stage('Deploy Code'){      		
 		steps {
           		script{
-				withCredentials([string(credentialsId: "argocd-role", variable: 'ARGOCD_AUTH_TOKEN')]){
+				withCredentials([string(credentialsId: "argocd-deploy-role", variable: 'ARGOCD_AUTH_TOKEN')]){
 					if (env.BRANCH_NAME.startsWith('PR') ){
 						stage('Prepare'){
 							try{
