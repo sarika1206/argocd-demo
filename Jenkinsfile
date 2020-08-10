@@ -109,6 +109,7 @@ pipeline {
 							REPO="https://github.com/sarika1206/argocd-dome-deploy.git"
 							IMAGE_DIGEST=$(docker image inspect $AWS_ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com/$CONTAINER:latest -f '{{join .RepoDigests ","}}')
 							argocd version
+							ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app set $CHANGE_BRANCH --kustomize-image $IMAGE_DIGEST
 							whoami
 							pwd
 							argocd app list
