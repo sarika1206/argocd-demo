@@ -134,7 +134,7 @@ pipeline {
 							'''
 							}
 						stage('Deploy into production env'){
-							input message:'Approve deployment?'	
+							input message:'Approve deployment.?'	
 							sh'''
 							ARGOCD_SERVER="a55eda76d41234773a1192cfc5bf4acd-160446432.us-west-2.elb.amazonaws.com"
                         				APP_NAME="prod-test"
