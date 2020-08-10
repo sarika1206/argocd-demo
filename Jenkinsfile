@@ -55,7 +55,7 @@ pipeline {
 	    stage('Deploy Code'){      		
 		steps {
           		script{
-				withCredentials([string(credentialsId: "argocd-deploy-role", variable: 'ARGOCD_AUTH_TOKEN')]){
+				withCredentials([string(credentialsId: "argocd-role", variable: 'ARGOCD_AUTH_TOKEN')]){
 					if (env.BRANCH_NAME.startsWith('PR') ){
 						stage('Prepare'){
 							try{
@@ -101,7 +101,7 @@ pipeline {
 						}
       						stage('Deploying application in preview env') {
 							sh''' 
-							ARGOCD_SERVER="a55eda76d41234773a1192cfc5bf4acd-160446432.us-west-2.elb.amazonaws.com"
+							ARGOCD_SERVER="a4029de4acdb6402d9c666710e4aab2d-1724426219.us-west-2.elb.amazonaws.com"
                         				AWS_ACCOUNT="738507247612"
 							AWS_REGION="us-west-2"
 							CONTAINER="k8s-debian-test"
@@ -120,7 +120,7 @@ pipeline {
 					if (env.BRANCH_NAME == 'master' ){
       						stage('Deploy into staging env') {
 							sh''' 
-							ARGOCD_SERVER="a55eda76d41234773a1192cfc5bf4acd-160446432.us-west-2.elb.amazonaws.com"
+							ARGOCD_SERVER="a4029de4acdb6402d9c666710e4aab2d-1724426219.us-west-2.elb.amazonaws.com"
                         				APP_NAME="debian-test"
 							PRE_APP="preview-test"
                         				AWS_ACCOUNT="738507247612"
@@ -137,7 +137,7 @@ pipeline {
 						stage('Deploy into production env'){
 							input message:'Approve deployment.?'	
 							sh'''
-							ARGOCD_SERVER="a55eda76d41234773a1192cfc5bf4acd-160446432.us-west-2.elb.amazonaws.com"
+							ARGOCD_SERVER="a4029de4acdb6402d9c666710e4aab2d-1724426219.us-west-2.elb.amazonaws.com"
                         				APP_NAME="prod-test"
                         				ARGOCD_SERVER=$ARGOCD_SERVER 
 							AWS_ACCOUNT="738507247612"
