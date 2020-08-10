@@ -20,7 +20,7 @@ pipeline {
 	stage('Prepare'){
         	steps {
                 	checkout([$class: 'GitSCM',
-                	branches: [[name: "origin\master"]],
+                	branches: [[name: env.BRANCH_NAME]],
                 	doGenerateSubmoduleConfigurations: false,
                 	submoduleCfg: [],
                 	userRemoteConfigs: [[
@@ -108,11 +108,6 @@ pipeline {
 							CLUSTER="https://kubernetes.default.svc"
 							REPO="https://github.com/sarika1206/argocd-dome-deploy.git"
 							IMAGE_DIGEST=$(docker image inspect $AWS_ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com/$CONTAINER:latest -f '{{join .RepoDigests ","}}')
-							argocd version
-							ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app set $CHANGE_BRANCH --kustomize-image $IMAGE_DIGEST
-							whoami
-							pwd
-							argocd app list
 							argocd app create $CHANGE_BRANCH --repo $REPO  --revision HEAD --path preview --dest-server $CLUSTER --dest-namespace preview
 							ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync $CHANGE_BRANCH --force 
 							argocd --grpc-web app set $CHANGE_BRANCH --kustomize-image $IMAGE_DIGEST
@@ -139,7 +134,7 @@ pipeline {
 							'''
 							}
 						stage('Deploy into production env'){
-							input message:'Approve deployment.?'	
+							input message:'Approve deployment?'	
 							sh'''
 							ARGOCD_SERVER="a4029de4acdb6402d9c666710e4aab2d-1724426219.us-west-2.elb.amazonaws.com"
                         				APP_NAME="prod-test"
