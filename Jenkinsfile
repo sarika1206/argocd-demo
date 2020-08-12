@@ -101,7 +101,7 @@ pipeline {
 						}
       						stage('Deploying application in preview env') {
 							sh''' 
-							ARGOCD_SERVER="a4029de4acdb6402d9c666710e4aab2d-1724426219.us-west-2.elb.amazonaws.com"
+							ARGOCD_SERVER="a245b05d949584b569e8b271148ce0c3-592377500.us-west-2.elb.amazonaws.com"
                         				AWS_ACCOUNT="738507247612"
 							AWS_REGION="us-west-2"
 							CONTAINER="k8s-debian-test"
@@ -119,7 +119,7 @@ pipeline {
 					if (env.BRANCH_NAME == 'master' ){
       						stage('Deploy into staging env') {
 							sh''' 
-							ARGOCD_SERVER="a4029de4acdb6402d9c666710e4aab2d-1724426219.us-west-2.elb.amazonaws.com"
+							ARGOCD_SERVER="a245b05d949584b569e8b271148ce0c3-592377500.us-west-2.elb.amazonaws.com"
                         				APP_NAME="debian-test"
 							PRE_APP="preview-test"
                         				AWS_ACCOUNT="738507247612"
@@ -136,7 +136,7 @@ pipeline {
 						stage('Deploy into production env'){
 							input message:'Approve deployment?'	
 							sh'''
-							ARGOCD_SERVER="a4029de4acdb6402d9c666710e4aab2d-1724426219.us-west-2.elb.amazonaws.com"
+							ARGOCD_SERVER="a245b05d949584b569e8b271148ce0c3-592377500.us-west-2.elb.amazonaws.com"
                         				APP_NAME="prod-test"
                         				ARGOCD_SERVER=$ARGOCD_SERVER 
 							AWS_ACCOUNT="738507247612"
